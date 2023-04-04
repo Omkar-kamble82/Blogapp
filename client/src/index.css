@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Manrope', sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    --dark:#222831;
+}
+
+.text {
+    font-family: 'Dancing Script', cursive;
+}
+
+li,a {
+    list-style-type: none;
+    text-decoration: none;
+}
