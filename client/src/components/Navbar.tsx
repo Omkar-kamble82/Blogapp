@@ -1,4 +1,5 @@
 import { useEffect,useState } from "react";
+import { Link } from "react-router-dom";
 type Props = {}
 
 const Navbar = (props: Props) => {
@@ -24,7 +25,7 @@ const Navbar = (props: Props) => {
         <div className={`${menu ? `translate-x-[100%]` : `translate-x-0`} border-2 border-[#565e6c] transition-all text-white bg-[#222831] z-[11] duration-1000 fixed w-[240px] h-[230px] top-0 right-0 lg:w-[300px]`}>
                 <div onClick={()=>{setMenu(true)}} className={`h-[30px] w-[30px] bg-[#00ADB5] text-white p-2 rounded-[50%] absolute top-6 right-6 lg:h-[35px] lg:w-[35px]`}><img src="/close.svg" alt="close-icon"/></div>
                 <div className={`absolute top-20 left-4`}>
-                    <li><p className="px-4 py-2 font-bold rounded-xl cursor-pointer text-[#222831] bg-[#00ADB5] hover:opacity-70 duration-700"><span className="px-2 rounded-full text-xl border-2 border-[#222831]"> +</span> Create</p></li>
+                    <Link to="/form"><li><p className="px-4 py-2 font-bold rounded-xl cursor-pointer text-[#222831] bg-[#00ADB5] hover:opacity-70 duration-700"><span className="px-2 rounded-full text-xl border-2 border-[#222831]"> +</span> Create</p></li></Link>
                     <li><p className="p-2 font-bold text-[#565e6c] cursor-pointer text-xl">Account</p></li>
                     <div className="bg-[#565e6c] w-full h-[3px]"/>
                     <li><p className="p-2 cursor-pointer font-bold text-[#565e6c] text-xl">Logout</p></li>
