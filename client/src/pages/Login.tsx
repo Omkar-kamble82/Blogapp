@@ -8,7 +8,10 @@ const Login = (props: Props) => {
     return (
         <div className='min-h-[100vh] w-[100vw] flex justify-center items-center bg-[#222831]'>
             {register && <div className='flex mx-4 shadow-lg justify-center rounded-xl items-center max-w-[500px] flex-col min-h-[70vh] my-10 overflow-hidden'>
-                <img className='w-full object-fill h-[170px]' src="/login.png" alt="login-img" />
+                <div className="relative w-full h-[170px]">
+                    <img className='w-full object-fill h-[170px]' src="/login.png" alt="login-img" />
+                    <div className="absolute inset-0 bg-black/60 flex justify-center items-center"><img className="h-20 w-50" src="/logo.png" alt="logo" /></div>
+                </div>
                 <div className='w-full bg-[#283035] flex justify-center flex-col'>
                     <h1 className='mt-4 ml-5 text-[#00ADB5] text-[27px] pb-6 font-bold'>Sign In</h1>
                     <form>
@@ -20,7 +23,10 @@ const Login = (props: Props) => {
                 </div>
             </div>}
             {!register && <div className='flex mx-4 shadow-lg justify-center rounded-xl items-center max-w-[500px] flex-col min-h-[70vh] my-10 overflow-hidden'>
-                <img className='w-full object-fill h-[170px]' src="/login.png" alt="login-img" />
+                <div className="relative w-full h-[170px]">
+                    <img className='w-full object-fill h-[170px]' src="/login.png" alt="login-img" />
+                    <div className="absolute inset-0 bg-black/60 flex justify-center items-center"><img className="h-20 w-50" src="/logo.png" alt="logo" /></div>
+                </div>
                 <div className='w-full bg-[#283035] flex justify-center flex-col'>
                     <h1 className='mt-4 ml-5 text-[#00ADB5] text-[27px] pb-6 font-bold'>Register</h1>
                     <form>
