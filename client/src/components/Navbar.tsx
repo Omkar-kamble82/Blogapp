@@ -19,7 +19,7 @@ const Navbar = (props: Props) => {
     return (
         <>
         <nav className='w-full shadow-2xl flex justify-between fixed bg-[#222831] p-4 items-center'>
-            <img className='w-[170px] cursor-pointer' src="/logo.png" alt="logo-img" />
+            <Link to="/home"><img className='w-[170px] cursor-pointer' src="/logo.png" alt="logo-img" /></Link>
             <div onClick={() => {setMenu(!menu)}} className='w-[40px] cursor-pointer h-[40px] rounded-full bg-[#00ADB5] flex justify-center items-center text-xl text-[#eee]'>A</div>
         </nav>
         <div className={`${menu ? `translate-x-[100%]` : `translate-x-0`} border-2 border-[#565e6c] transition-all text-white bg-[#222831] z-[11] duration-1000 fixed w-[240px] h-[230px] top-0 right-0 lg:w-[300px]`}>
