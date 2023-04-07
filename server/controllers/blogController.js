@@ -61,9 +61,14 @@ const updateBlog = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({error: 'No such blog'})
     }
-    const blog = await Blog.findOneAndUpdate({_id: id}, {
-        ...req.body
-    })
+    // const blog = await Blog.findOneAndUpdate({_id: id}, {
+    //     ...req.body
+    // })
+    const blog = await Blog.findByIdAndUpdate({_id: id}, {
+            $set: req.body,
+        },
+        { new: true }
+    );
     if (!blog) {
         return res.status(400).json({error: 'No such blog'})
     }
