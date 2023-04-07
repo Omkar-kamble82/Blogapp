@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { imagedata } from "../constant/data";
-import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../context/AuthContext";
 
-type Props = {}
-const Form = (props: Props) => {
+const Form = () => {
     const navigate = useNavigate();
     const [fileuploadtype, setFileUploadType] = useState<number>(0)
     const [title,setTitle] = useState<String>("")
@@ -13,17 +13,18 @@ const Form = (props: Props) => {
     const [description,setDescription] = useState<String>("")
     const [url,setImageurl] = useState<string>("")
     const [error,setError] = useState<String>("")
+    const {user,setUser} = useContext(UserContext)
 
     const submit = async () => {
         const tags = Tags.split(",")
-        const user_name = "omkar"
+        const user_name = user.username
         const blog = {title, tags, url, description, user_name}
         const response = await fetch(import.meta.env.VITE_SERVER, {
             method: 'POST',
             body: JSON.stringify(blog),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJmOTg3ZDQ3ODAzMjJmNzdlZDFjODQiLCJpYXQiOjE2ODA4NDA4MzAsImV4cCI6MTY4MTEwMDAzMH0.FoOr7mIUbdU7qdP09QQkuDyv-h4FLrmd3QWur_ZNGqc`,
+                'Authorization': `Bearer ${user.token}`,
             }
         })
         const json = await response.json()

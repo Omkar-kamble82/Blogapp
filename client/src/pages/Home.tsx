@@ -2,6 +2,8 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { useContext } from "react";
+import { UserContext } from "../context/AuthContext";
 
 interface blog {
     _id:Number
@@ -16,11 +18,12 @@ interface blog {
 const Home = () => {
 
     const [items, setItems] = useState<blog[]>()
+    const {user,setUser} = useContext(UserContext)
 
     useEffect(() => {
         const fetchWorkouts = async () => {
             const response = await fetch(import.meta.env.VITE_SERVER,{
-                headers: {'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJmOTg3ZDQ3ODAzMjJmNzdlZDFjODQiLCJpYXQiOjE2ODA4NDU0MjcsImV4cCI6MTY4MTEwNDYyN30.-kCCdtaYhYp0MLxRUZcNa4184kCB3NtJJP4SKyZ5aY8`},
+                headers: {'Authorization': `Bearer ${user.token}`},
             })
             const json = await response.json()
             const data = JSON.stringify(json)

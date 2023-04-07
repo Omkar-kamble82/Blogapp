@@ -11,7 +11,6 @@ import { UserContext } from "./context/AuthContext";
 function App() {
   const {user,setUser} = useContext(UserContext)
 
-
   return (
     <BrowserRouter>
       <Routes>

@@ -26,7 +26,7 @@ const Navbar = () => {
         <>
         <nav className='w-full shadow-2xl flex justify-between fixed bg-[#222831] p-4 items-center'>
             <Link to="/home"><img className='w-[170px] cursor-pointer' src="/logo.png" alt="logo-img" /></Link>
-            <div onClick={() => {setMenu(!menu)}} className='w-[40px] cursor-pointer h-[40px] rounded-full bg-[#00ADB5] flex justify-center items-center text-xl text-[#eee]'>A</div>
+            <div onClick={() => {setMenu(!menu)}} className='w-[40px] cursor-pointer h-[40px] rounded-full bg-[#00ADB5] flex justify-center items-center text-xl text-[#eee]'>{user.username.charAt(0)}</div>
         </nav>
         <div className={`${menu ? `translate-x-[100%]` : `translate-x-0`} border-2 border-[#565e6c] transition-all text-white bg-[#222831] z-[11] duration-1000 fixed w-[240px] h-[230px] top-0 right-0 lg:w-[300px]`}>
                 <div onClick={()=>{setMenu(true)}} className={`h-[30px] w-[30px] bg-[#00ADB5] text-white p-2 rounded-[50%] absolute top-6 right-6 lg:h-[35px] lg:w-[35px]`}><img src="/close.svg" alt="close-icon"/></div>
