@@ -1,10 +1,16 @@
 import { useEffect,useState } from "react";
 import { Link } from "react-router-dom";
-type Props = {}
+import { useLogout } from "../hooks/useLogout";
+import { useContext } from "react";
+import { UserContext } from "../context/AuthContext";
 
-const Navbar = (props: Props) => {
+
+const Navbar = () => {
 
     const [menu, setMenu] = useState(true)
+    const { logout } = useLogout()
+    const {user,setUser} = useContext(UserContext)
+
     useEffect(() => {
         let handler = (e:MouseEvent | TouchEvent | Event) => {
             if(e.target) {
@@ -26,9 +32,9 @@ const Navbar = (props: Props) => {
                 <div onClick={()=>{setMenu(true)}} className={`h-[30px] w-[30px] bg-[#00ADB5] text-white p-2 rounded-[50%] absolute top-6 right-6 lg:h-[35px] lg:w-[35px]`}><img src="/close.svg" alt="close-icon"/></div>
                 <div className={`absolute top-20 left-4`}>
                     <Link to="/form"><li><p className="px-4 py-2 font-bold rounded-xl cursor-pointer text-[#222831] bg-[#00ADB5] hover:opacity-70 duration-700"><span className="px-2 rounded-full text-xl border-2 border-[#222831]"> +</span> Create</p></li></Link>
-                    <li><p className="p-2 font-bold text-[#565e6c] cursor-pointer text-xl">Account</p></li>
+                    <Link to={`/${user.username}blogs`}><li><p className="p-2 font-bold text-[#565e6c] cursor-pointer text-xl">Account</p></li></Link>
                     <div className="bg-[#565e6c] w-full h-[3px]"/>
-                    <li><p className="p-2 cursor-pointer font-bold text-[#565e6c] text-xl">Logout</p></li>
+                    <li onClick={logout}><p className="p-2 cursor-pointer font-bold text-[#565e6c] text-xl">Logout</p></li>
                 </div>
             </div>
         </>

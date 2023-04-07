@@ -4,17 +4,22 @@ import Home from "./pages/Home";
 import Form from "./pages/Form";
 import Blog from "./pages/Blog";
 import Account from "./pages/Account";
+import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "./context/AuthContext";
 
 function App() {
+  const {user,setUser} = useContext(UserContext)
+
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />}/>
-        <Route path="/home" element={<Home />}/>
-        <Route path="/form" element={<Form />}/>
-        <Route path="/:id" element={<Blog />}/>
-        <Route path="/account" element={<Account />}/>
+        <Route path="/" element={user?.username === "" ? <Login /> : <Navigate to="/home" />}/>
+        <Route path="/home" element={user?.username !== "" ? <Home /> : <Navigate to="/" />}/>
+        <Route path="/form" element={user?.username !== "" ? <Form /> : <Navigate to="/" />}/>
+        <Route path="/:id" element={user?.username !== "" ? <Blog /> : <Navigate to="/" />}/>
+        <Route path={`/${user.username}blogs`} element={user?.username !== "" ? <Account /> : <Navigate to="/" />}/>
       </Routes>
     </BrowserRouter>
   )
