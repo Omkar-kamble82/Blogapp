@@ -2,11 +2,44 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { imagedata } from "../constant/data";
+import { Navigate } from "react-router-dom";
 
 type Props = {}
 const Form = (props: Props) => {
+    const navigate = useNavigate();
     const [fileuploadtype, setFileUploadType] = useState<number>(0)
-    console.log(fileuploadtype)
+    const [title,setTitle] = useState<String>("")
+    const [Tags,setTags] = useState<String>("")
+    const [description,setDescription] = useState<String>("")
+    const [url,setImageurl] = useState<string>("")
+    const [error,setError] = useState<String>("")
+
+    const submit = async () => {
+        const tags = Tags.split(",")
+        const user_name = "omkar"
+        const blog = {title, tags, url, description, user_name}
+        const response = await fetch(import.meta.env.VITE_SERVER, {
+            method: 'POST',
+            body: JSON.stringify(blog),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJmOTg3ZDQ3ODAzMjJmNzdlZDFjODQiLCJpYXQiOjE2ODA4NDA4MzAsImV4cCI6MTY4MTEwMDAzMH0.FoOr7mIUbdU7qdP09QQkuDyv-h4FLrmd3QWur_ZNGqc`,
+            }
+        })
+        const json = await response.json()
+        if (!response.ok) {
+            setError(json.error)
+        }
+        if (response.ok) {
+            setError("")
+            setTitle('')
+            setTags('')
+            setDescription('')
+            setImageurl('')
+            navigate("/home")
+        }
+    }
+
     return (
         <div className="bg-[#222831] relative min-h-[100vh]">
             <Navbar/>
@@ -19,7 +52,7 @@ const Form = (props: Props) => {
                                 <div className="mb-10 flex justify-evenly flex-wrap">
                                     {imagedata.map((image) => {
                                     return(
-                                            <img onClick={() => {setFileUploadType(0)}} key={image.id} className="min-w-[200px] max-w-[270px] cursor-pointer m-2 scale-100 object-contain" src={image.url} alt="image"/>
+                                        <img onClick={() => {setImageurl(image.url);setFileUploadType(0)}} key={image.id} className="min-w-[200px] max-w-[270px] cursor-pointer m-2 scale-100 object-contain" src={image.url} alt="image"/>
                                         )
                                     })}
                                 </div>
@@ -29,9 +62,9 @@ const Form = (props: Props) => {
                         <h1 className='mt-4 mb-4 text-[#00ADB5] text-center text-4xl pb-6 font-bold'>Create a blog</h1>
                         
                             <label className="text-xl mx-5 mb-1 font-bold text-[#00ADB5] sm:text-2xl">Title </label>
-                            <input className='mx-4 text-md mb-3 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='My first blog.....'/>
+                            <input onChange={(e) => setTitle(e.target.value)} className='mx-4 text-md mb-3 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='My first blog.....'/>
                             <label className="text-xl mx-5 mb-1 font-bold text-[#00ADB5] sm:text-2xl">Tags </label>
-                            <input className='mx-4 text-md bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='AI,Tech,Apple'/>
+                            <input onChange={(e) => setTags(e.target.value)} className='mx-4 text-md bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='AI,Tech,Apple'/>
                             <p className="ml-5 text-gray-600 mb-4 font-bold text-[14px]">*seprate tags with a comma</p>
                             <label className="ml-5 text-xl font-bold text-[#00ADB5] sm:text-sm">Upload a relevent image </label>
                             <div className="ml-5 mb-1 mt-[5px]">
@@ -41,12 +74,13 @@ const Form = (props: Props) => {
                             </div> 
                             <div className="mb-4">
                                 {fileuploadtype === 1 && <input className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[60px] p-4' type="file" name="filename" />}
-                                {fileuploadtype === 2 && <input className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='www.google.com'/>}
+                                {fileuploadtype === 2 && <input onChange={(e) => {setImageurl(e.target.value)}} className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='www.google.com'/>}
                             </div>  
+                            {url !== "" ? <p className="text-[#05bd05] ml-6 mb-6">Image Uploaded</p> :<p className="text-[#c72931] font-semibold ml-6 mb-6">Image not uploaded</p>}                    
                             <label className="text-xl ml-4 font-bold text-[#00ADB5] sm:text-sm">Blog </label>
-                            <textarea className='mx-4 text-md mt-2 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder="This is a blog...."/>
-                            <button type="submit" className="mt-6 ml-4 rounded-lg px-4 py-1 font-bold text-[#ffffff] bg-[#00ADB5] text-lg hover:duration-1000 hover:opacity-80 hover:text-white w-[100px]">Post</button>
-                        <p  className="text-center text-[#5b6c76] text-[12px] py-5">*Fill all the inputs before posting</p>
+                            <textarea onChange={(e) => setDescription(e.target.value)} className='mx-4 text-md mt-2 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder="This is a blog...."/>
+                            <button type="submit" onClick = {submit} className="mt-6 ml-4 mb-6 rounded-lg px-4 py-1 font-bold text-[#ffffff] bg-[#00ADB5] text-lg hover:duration-1000 hover:opacity-80 hover:text-white w-[100px]">Post</button>
+                            {error && <div className="mt-2 font-bold mb-6 text-center text-[#c72931]">{error}</div>}
                     </div>
                 </div>
             </div>
