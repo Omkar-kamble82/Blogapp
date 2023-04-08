@@ -9,13 +9,10 @@ const userRoutes = require('./routes/user')
 const app = express()
 
 app.use(express.json())
-const allowedOrigins = [
-    'http://127.0.0.1:5173'
-]
 
 app.use(
     cors({
-        origin: allowedOrigins
+        origin: process.env.CORS_ORIGIN
     })
 )
 
