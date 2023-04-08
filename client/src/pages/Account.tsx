@@ -41,6 +41,7 @@ const Account = () => {
         <div className='bg-[#222831] min-h-[100vh]'>
             <Navbar />
             <div className="mt-20 md:mt-32 flex justify-center items-center flex-col">
+                {items?.length === 0 && <h1 className="text-4xl font-bold text-[#00ADB5] p-4">You haven't posted anything!!</h1>}
                 {items?.map((item:blog,i) => {
                         return(
                             <Link key={i} to={`/${item._id}`}><div key={i} className="flex bg-[#262d37] mx-4 rounded-xl my-4 max-w-[950px] p-4 flex-col-reverse sm:flex-row md:max-w-[850px] md:min-w-[845px] justify-between items-center">

@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useState,ChangeEvent } from "react";
 import { imagedata } from "../constant/data";
 import { useContext } from "react";
 import { UserContext } from "../context/AuthContext";
+import { ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { storage } from "../firebase";
+import { v4 } from "uuid";
 
 const Form = () => {
+    const reader = new FileReader();
     const navigate = useNavigate();
     const [fileuploadtype, setFileUploadType] = useState<number>(0)
     const [title,setTitle] = useState<String>("")
@@ -13,6 +17,7 @@ const Form = () => {
     const [description,setDescription] = useState<String>("")
     const [url,setImageurl] = useState<string>("")
     const [error,setError] = useState<String>("")
+    const [array,setArray] = useState<ArrayBuffer>()
     const {user,setUser} = useContext(UserContext)
 
     const submit = async () => {
@@ -38,6 +43,13 @@ const Form = () => {
             setDescription('')
             setImageurl('')
             navigate("/home")
+        }
+    }
+
+    const upload = (e : ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files) {
+            const imageRef = ref(storage, `images/${e.target.files[0].name + v4()}`);
+            uploadBytes(imageRef, e.target.files[0]).then((snapshot) => getDownloadURL(snapshot.ref)).then((url) =>{setImageurl(url)})
         }
     }
 
@@ -74,7 +86,7 @@ const Form = () => {
                                 <button onClick={() => {setFileUploadType(3)}} className="text-sm rounded-xl min-w-[100px] my-3 font-bold bg-[#222831] text-[#57676f] py-2 px-2 drop-shadow-md md:px-4 sm:m-2">Choose from gallary</button>
                             </div> 
                             <div className="mb-4">
-                                {fileuploadtype === 1 && <input className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[60px] p-4' type="file" name="filename" />}
+                                {fileuploadtype === 1 && <input onChange={upload} className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[60px] p-4' type="file" name="filename" />}
                                 {fileuploadtype === 2 && <input onChange={(e) => {setImageurl(e.target.value)}} className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px] font-bold' placeholder='www.google.com'/>}
                             </div>  
                             {url !== "" ? <p className="text-[#05bd05] ml-6 mb-6">Image Uploaded</p> :<p className="text-[#c72931] font-semibold ml-6 mb-6">Image not uploaded</p>}                    

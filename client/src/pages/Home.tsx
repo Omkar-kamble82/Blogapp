@@ -19,6 +19,7 @@ const Home = () => {
 
     const [items, setItems] = useState<blog[]>()
     const {user,setUser} = useContext(UserContext)
+    const [loading,setLoading] = useState(false)
 
     useEffect(() => {
         const fetchWorkouts = async () => {
@@ -31,12 +32,17 @@ const Home = () => {
             setItems(blog)
             if (response.ok) {
             }
+            const timer = setTimeout(() => {
+                setLoading(false)
+            }, 5000);
+            return () => clearTimeout(timer);
         }
         fetchWorkouts()
     }, [])
 
     return (
-        <div className="min-h-screen w-screen bg-[#222831]">
+        <div className="min-h-screen relative w-screen bg-[#222831]">
+            {loading && <div className="absolute inset-0 bg-black/90 z-[10] flex justify-center items-center flex-col"><img className="h-[100px]" src="/loading.gif" alt="" /><p className="text-[#00ADB5] text-[14px]">*Posts Loading....</p></div>}
             <Navbar/>
             <div className="mt-20 md:mt-32 flex justify-center items-center flex-col">
                 {items?.map((item:blog,i) => {

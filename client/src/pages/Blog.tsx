@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/AuthContext";
+import jwt_decode from "jwt-decode";
 
 interface Blog {
     _id:string
@@ -26,6 +27,14 @@ const Blog = () => {
     const navigate = useNavigate();
     const[userblog,setUserblog] = useState<Blog>();
     const {user,setUser} = useContext(UserContext)
+    const [loading,setLoading] = useState(true);
+    let token:any
+    let tokenid
+
+    if(user?.token){
+        token = jwt_decode(user?.token)
+        tokenid = token._id
+    }
 
     const handledelete = async () => {
         const response = await fetch(import.meta.env.VITE_SERVER + id, {
@@ -88,6 +97,10 @@ const Blog = () => {
                     setUserblog(blog)
                 }
             })
+            const timer = setTimeout(() => {
+                setLoading(false)
+            }, 2000);
+            return () => clearTimeout(timer);
         }
         fetchWorkouts()
     }, [])
@@ -103,14 +116,15 @@ const Blog = () => {
 
 
     return (
-        <div className="min-h-[100vh] w-[100vw] bg-[#222831]">
+        <div className="min-h-[100vh] w-[100vw] relative bg-[#222831]">
+            {loading && <div className="absolute inset-0 bg-black/90 z-[11] flex justify-center items-center flex-col"><img className="h-[100px]" src="/loading.gif" alt="" /><p className="text-[#00ADB5] text-[14px]">*Post Loading.....</p></div>}
             <Navbar />
             <div className="mt-[90px] mb-10 ml-[5vw] sm:ml-[10vw]">
-                <img className="w-[90vw] h-[35vh] rounded-2xl sm:w-[80vw] sm:h-[45vh]" src={userblog?.url} alt="blog-img" />
+                <img className="w-[90vw] h-[35vh] object-cover rounded-2xl sm:w-[80vw] sm:h-[45vh]" src={userblog?.url} alt="blog-img" />
                 {updatemode && <p className="mt-4 text-2xl text-[#00ADB5] font-bold">Update the blog</p>}               
                 {!updatemode && <h1 className="mt-4 text-4xl py-4 font-bold text-[#00ADB5]">{userblog?.title}</h1>}
                 {updatemode && <div className="mt-4"><label className="text-[#bababa] font-bold text-xl">Title: </label><input  autoFocus type="text" defaultValue={userblog?.title} onChange={(e) => setTitle(e.target.value)} className='ml-4 mb-3 mt-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] border-2 border-[#424f58] w-[250px] sm:w-[450px] pl-4 h-[40px] font-bold'/></div>}
-                {user.username === userblog?.user_name && <div className="ml-[-10px]">
+                {tokenid === userblog?.user_id && <div className="ml-[-10px]">
                     {!updatemode &&<button onClick={() => {setUpadatemode(true)}} className="px-4 py-1 m-2 rounded-xl bg-[#2e373d] text-[#00ADB5] cursor-pointer mr-2">Update</button>}
                     {updatemode && <button onClick={() => {update();setUpadatemode(false)}} className="px-4 py-1 m-2 rounded-xl bg-[#2e373d] text-[#00ADB5] cursor-pointer mr-2">Publish</button>}
                     <button onClick={handledelete} className="px-4 py-1 rounded-xl bg-[#2e373d] text-[#00ADB5] cursor-pointer">Delete</button>
