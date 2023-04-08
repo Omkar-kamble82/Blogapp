@@ -29,6 +29,7 @@ const Login = () => {
             await signup(username, password)
         }
     }
+    console.log(password !== confirmpassword)
 
     return (
         <div className='min-h-[100vh] w-[100vw] flex justify-center items-center relative bg-[#222831]'>
@@ -61,7 +62,7 @@ const Login = () => {
                     <form onSubmit={submitregister}>
                         <input onChange={(e) => {setUsername(e.target.value)}} className='mx-4 bg-[#222831] rounded-md placeholder-[#424f58] text-[#424f58] outline-none w-[300px] sm:w-[450px] pl-4 h-[40px]' placeholder='Username'/>
                         <div className="flex bg-[#222831] items-center m-4 mt-5 rounded-md w-[300px] sm:w-[450px] pl-4 h-[40px] justify-between pr-4"><input type={visible ? "text" : "password"} onChange={(e) => {setPassword(e.target.value)}} className='w-[250px] sm:w-[400px] outline-none placeholder-[#424f58] bg-[#222831] text-[#424f58]' placeholder='Password'/><div className="cursor-pointer" onClick={() => {setVisible(!visible)}}><img className="h-6" src="/eye.svg" alt="change_visiblity" /></div></div>
-                        <div className="flex bg-[#222831] items-center m-4 mt-5 rounded-md w-[300px] sm:w-[450px] pl-4 h-[40px] justify-between pr-4"><input type={visible ? "text" : "password"} onChange={(e) => {setPassword(e.target.value)}} className='w-[250px] sm:w-[400px] outline-none placeholder-[#424f58] bg-[#222831] text-[#424f58]' placeholder='Confirm Password'/><div className="cursor-pointer" onClick={() => {setVisible(!visible)}}><img className="h-6" src="/eye.svg" alt="change_visiblity" /></div></div>
+                        <div className="flex bg-[#222831] items-center m-4 mt-5 rounded-md w-[300px] sm:w-[450px] pl-4 h-[40px] justify-between pr-4"><input type={visible ? "text" : "password"} onChange={(e) => {setConfirmPassword(e.target.value)}} className='w-[250px] sm:w-[400px] outline-none placeholder-[#424f58] bg-[#222831] text-[#424f58]' placeholder='Confirm Password'/><div className="cursor-pointer" onClick={() => {setVisible(!visible)}}><img className="h-6" src="/eye.svg" alt="change_visiblity" /></div></div>
                         <button type="submit" className="w-[300px] pl-4 h-[40px] mx-4 mt-5 rounded-md text-[#283035] font-bold bg-[#00ADB5] hover:opacity-70 duration-700 sm:w-[450px]">Register Now</button>
                     </form>
                     {error && <p className="text-[#c72931] font-bold text-center text-sm">{error}</p> }           
