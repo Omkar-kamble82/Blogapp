@@ -14,6 +14,7 @@ interface blog {
     url:string
     createdAt:string
     updatedAt:Number
+    user_name:string
 }
 
 
@@ -21,6 +22,9 @@ const Account = () => {
     const {id} = useParams()
     const {user,setUser} = useContext(UserContext)
     const [items, setItems] = useState<blog[]>()
+    let blogarray: blog[] = []
+    const [search,setSearch] = useState("")
+
 
     useEffect(() => {
         const fetchWorkouts = async () => {
@@ -33,6 +37,24 @@ const Account = () => {
             setItems(blog)
             if (response.ok) {
             }
+            if(search) {
+                items?.map((item) => {
+                    if(item.title.trim().toLowerCase() === search) {
+                        blogarray.push(item) 
+                        setItems(blogarray)
+                    }
+                    item.tags.map((tag) => {
+                        if(tag.trim().toLowerCase() === search) {
+                            blogarray.push(item) 
+                            setItems(blogarray)
+                        }
+                    })
+                    if(item.user_name.trim().toLowerCase() === search) {
+                        blogarray.push(item) 
+                        setItems(blogarray)
+                    }
+                })
+            }
         }
         fetchWorkouts()
     }, [])
@@ -41,6 +63,7 @@ const Account = () => {
         <div className='bg-[#222831] min-h-[100vh]'>
             <Navbar />
             <div className="mt-20 md:mt-32 flex justify-center items-center flex-col">
+                {items?.length !== 0 && <input onChange = {(e) => {setSearch(e.target.value.toLowerCase)}} className='mt-6 bg-[#57676f] rounded-md placeholder-[#222831] text-[#222831] outline-none w-[300px] sm:w-[450px] sm:mb-6 pl-4 h-[40px]' type="text" placeholder="search a post...."/>}
                 {items?.length === 0 && <h1 className="text-4xl font-bold text-[#00ADB5] p-4">You haven't posted anything!!</h1>}
                 {items?.map((item:blog,i) => {
                         return(

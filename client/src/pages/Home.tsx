@@ -13,13 +13,15 @@ interface blog {
     url:string
     createdAt:string
     updatedAt:Number
+    user_name:string
 }
 
 const Home = () => {
 
     const [items, setItems] = useState<blog[]>()
+    let blogarray: blog[] = []
     const {user,setUser} = useContext(UserContext)
-    const [loading,setLoading] = useState(false)
+    const [search,setSearch] = useState("")
 
     useEffect(() => {
         const fetchWorkouts = async () => {
@@ -32,19 +34,34 @@ const Home = () => {
             setItems(blog)
             if (response.ok) {
             }
-            const timer = setTimeout(() => {
-                setLoading(false)
-            }, 5000);
-            return () => clearTimeout(timer);
+            if(search) {
+                items?.map((item) => {
+                    if(item.title.trim().toLowerCase() === search) {
+                        blogarray.push(item) 
+                        setItems(blogarray)
+                    }
+                    item.tags.map((tag) => {
+                        if(tag.trim().toLowerCase() === search) {
+                            blogarray.push(item) 
+                            setItems(blogarray)
+                        }
+                    })
+                    if(item.user_name.trim().toLowerCase() === search) {
+                        blogarray.push(item) 
+                        setItems(blogarray)
+                    }
+                })
+            }
         }
         fetchWorkouts()
-    }, [])
+    }, [search])
+    
 
     return (
         <div className="min-h-screen relative w-screen bg-[#222831]">
-            {loading && <div className="absolute inset-0 bg-black/90 z-[10] flex justify-center items-center flex-col"><img className="h-[100px]" src="/loading.gif" alt="" /><p className="text-[#00ADB5] text-[14px]">*Posts Loading....</p></div>}
             <Navbar/>
             <div className="mt-20 md:mt-32 flex justify-center items-center flex-col">
+                <input onChange = {(e) => {setSearch(e.target.value.toLowerCase())}} className='mt-6 bg-[#57676f] rounded-md placeholder-[#222831] text-[#222831] outline-none w-[300px] sm:w-[450px] sm:mb-6 pl-4 h-[40px]' type="text" placeholder="search a post...."/>
                 {items?.map((item:blog,i) => {
                         return(
                             <Link key={i} to={`/${item._id}`}><div key={i} className="flex bg-[#262d37] mx-4 rounded-xl my-4 max-w-[950px] p-4 flex-col-reverse sm:flex-row md:max-w-[850px] md:min-w-[845px] justify-between items-center">

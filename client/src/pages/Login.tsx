@@ -34,7 +34,7 @@ const Login = () => {
     return (
         <div className='min-h-[100vh] w-[100vw] flex justify-center items-center relative bg-[#222831]'>
             {isloginLoading && <div className="absolute inset-0 bg-black/70 z-[11] flex justify-center items-center flex-col"><img className="h-[100px]" src="/loading.gif" alt="" /><p className="text-[#00ADB5] text-[14px]">*If it takes longer, please reload the page and try again.</p></div>}
-            {register && <div className='flex mx-4 shadow-lg justify-center rounded-xl items-center max-w-[500px] flex-col min-h-[70vh] my-10 overflow-hidden'>
+            {register && <div className='flex mx-4 shadow-lg justify-center rounded-xl items-center max-w-[500px] flex-col my-10 overflow-hidden'>
                 <div className="relative w-full h-[170px]">
                     <img className='w-full object-fill h-[170px]' src="/login.png" alt="login-img" />
                     <div className="absolute inset-0 bg-black/60 flex justify-center items-center"><img className="h-20 w-50" src="/logo.png" alt="logo" /></div>
