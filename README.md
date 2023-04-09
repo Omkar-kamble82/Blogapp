@@ -1,0 +1,3 @@
+<h1>Blogup</h1>
+<br/>
+<p>Developed a full-stack blog application using the MERN stack, which included MongoDB for the database and Express for the API in the backend, and React, Tailwind, TypeScript, and Vite in the frontend. Implemented JWT token-based authentication for user registration/login, and enabled users to create, update, and delete their blogs, as well as view other users' blogs. Utilized Context API to manage state and store user data in local storage to enable persistent login. Deployed the project on Render.com, resulting in a functional and polished full-stack web application showcasing proficiency in MERN stack technologies.</p>
