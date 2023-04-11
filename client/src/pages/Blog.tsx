@@ -40,7 +40,7 @@ const Blog = () => {
         const response = await fetch(import.meta.env.VITE_SERVER + id, {
         method: 'DELETE',
         headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJmOTg3ZDQ3ODAzMjJmNzdlZDFjODQiLCJpYXQiOjE2ODA4NDA4MzAsImV4cCI6MTY4MTEwMDAzMH0.FoOr7mIUbdU7qdP09QQkuDyv-h4FLrmd3QWur_ZNGqc`
+            'Authorization': `Bearer ${user.token}`
         }
         })
         const json = await response.json()
