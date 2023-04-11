@@ -91,8 +91,7 @@ const Blog = () => {
             })
             const json = await response.json()
             const data = JSON.stringify(json)
-            const blog = JSON.parse(data)
-            blog.map((blog:Blog) => {
+            const blog = [JSON.parse(data)].map((blog:Blog) => {
                 if(blog._id === id) {
                     setUserblog(blog)
                 }
